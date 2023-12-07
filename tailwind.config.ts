@@ -1,4 +1,5 @@
 import animate from 'tailwindcss-animate'
+import { fontFamily } from 'tailwindcss/defaultTheme'
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -13,6 +14,10 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        cal: ['Cal Sans', 'Cal Sans fallback'],
+        sans: ['Inter', 'Inter fallback', ...fontFamily.sans],
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

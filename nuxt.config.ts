@@ -4,7 +4,10 @@ export default defineNuxtConfig({
     port: 8080,
   },
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxtjs/supabase'],
+  modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxtjs/supabase', '@nuxt/image', '@nuxtjs/fontaine', '@nuxtjs/google-fonts'],
+  tailwindcss: {
+    exposeConfig: true,
+  },
   shadcn: {
     /**
      * Prefix for all the imported component
@@ -18,9 +21,14 @@ export default defineNuxtConfig({
   },
   supabase: {
     redirectOptions: {
-      login: '/login',
+      login: '/auth/login',
       callback: '/confirm',
       exclude: [],
+    },
+  },
+  googleFonts: {
+    families: {
+      Inter: true,
     },
   },
 })
