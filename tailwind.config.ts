@@ -2,7 +2,7 @@ import animate from 'tailwindcss-animate'
 import { fontFamily } from 'tailwindcss/defaultTheme'
 
 /** @type {import('tailwindcss').Config} */
-const subtleColor = "#E5E7EB";
+const subtleColor = '#E5E7EB'
 module.exports = {
   darkMode: ['class'],
 
@@ -93,11 +93,6 @@ module.exports = {
         attention: 'var(--cal-text-attention, #73321B)',
         error: 'var(--cal-text-error, #752522)',
         brand: 'var(--cal-brand-text)',
-      },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
       },
       keyframes: {
         'accordion-down': {
