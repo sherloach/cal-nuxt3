@@ -4,7 +4,7 @@ export default defineNuxtConfig({
     port: 8080,
   },
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxtjs/supabase', '@nuxt/image', '@nuxtjs/fontaine', '@nuxtjs/google-fonts'],
+  modules: ['@vee-validate/nuxt', '@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxtjs/supabase', '@nuxt/image', '@nuxtjs/fontaine', '@nuxtjs/google-fonts'],
   tailwindcss: {
     exposeConfig: true,
   },

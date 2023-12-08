@@ -1,18 +1,38 @@
 <script setup lang="ts">
 import 'cal-sans'
 import { AlertCircle } from 'lucide-vue-next'
+import { z } from 'zod'
 
-const data = ref({
-  email: '',
-  password: '',
+const validationSchema = toTypedSchema(
+  z.object({
+    email: z.string({ required_error: 'Please enter an email address' })
+      .email({ message: 'Please enter a valid email address' }),
+    password: z.string({ required_error: 'Please enter a password' })
+      .min(4, { message: 'Password must be at least 4 characters' }),
+  }),
+)
+
+const { handleSubmit, errors } = useForm({
+  validationSchema,
 })
 
-function onSubmit() {
-  if (!data.value.email || !data.value.password)
-    return
+const { value: email } = useField<string>('email')
+const { value: password } = useField<string>('password')
 
-  console.log('submited!')
-}
+const onSubmit = handleSubmit((values) => {
+  console.log(values)
+})
+// async function onSubmit() {
+// if (!data.value.email || !data.value.password)
+//   return
+
+// const { body } = await $fetch('/api/auth/login', {
+//   method: 'POST',
+//   body: data.value,
+// })
+
+// console.log({ body })
+// }
 </script>
 
 <template>
@@ -33,18 +53,18 @@ function onSubmit() {
           <div class="space-y-6">
             <div>
               <Label for="email" class="mb-2">Email address</Label>
-              <Input v-model="data.email" type="email" placeholder="johndoe@example.com" />
-              <div class="text-gray mt-2 flex items-center gap-x-2 text-sm text-red-700">
+              <Input v-model="email" type="email" placeholder="johndoe@example.com" />
+              <div v-if="errors.email" class="text-gray mt-2 flex items-center gap-x-2 text-sm text-red-700">
                 <AlertCircle width="13" height="13" />
-                <p>This field is required.</p>
+                <p>{{ errors.email }}</p>
               </div>
             </div>
             <div>
               <Label for="password" class="mb-2">Password</Label>
-              <Input v-model="data.password" type="password" placeholder="•••••••••••••" />
-              <div class="text-gray mt-2 flex items-center gap-x-2 text-sm text-red-700">
+              <Input v-model="password" type="password" placeholder="•••••••••••••" />
+              <div v-if="errors.password" class="text-gray mt-2 flex items-center gap-x-2 text-sm text-red-700">
                 <AlertCircle width="13" height="13" />
-                <p>This field is required.</p>
+                <p>{{ errors.password }}</p>
               </div>
             </div>
             <Button class="bg-brand-default text-brand disabled:bg-[#9ca3af] w-full" type="submit">
