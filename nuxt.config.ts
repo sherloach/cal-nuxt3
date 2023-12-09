@@ -20,11 +20,12 @@ export default defineNuxtConfig({
     componentDir: './components/ui',
   },
   supabase: {
-    redirectOptions: {
-      login: '/auth/login',
-      callback: '/confirm',
-      exclude: [],
-    },
+    redirect: false,
+    // redirectOptions: {
+    //   login: '/login',
+    //   callback: '/confirm',
+    //   exclude: [],
+    // },
   },
   googleFonts: {
     families: {
