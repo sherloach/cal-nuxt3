@@ -53,7 +53,7 @@ const onSubmit = handleSubmit((values) => {
           <div class="space-y-6">
             <div>
               <Label for="email" class="mb-2">Email address</Label>
-              <Input v-model="email" type="email" placeholder="johndoe@example.com" />
+              <Input v-model="email" type="email" placeholder="johndoe@example.com" class="rounded-md" />
               <div v-if="errors.email" class="text-gray mt-2 flex items-center gap-x-2 text-sm text-red-700">
                 <AlertCircle width="13" height="13" />
                 <p>{{ errors.email }}</p>
@@ -61,7 +61,7 @@ const onSubmit = handleSubmit((values) => {
             </div>
             <div>
               <Label for="password" class="mb-2">Password</Label>
-              <Input v-model="password" type="password" placeholder="•••••••••••••" />
+              <Input v-model="password" type="password" placeholder="•••••••••••••" class="rounded-md" />
               <div v-if="errors.password" class="text-gray mt-2 flex items-center gap-x-2 text-sm text-red-700">
                 <AlertCircle width="13" height="13" />
                 <p>{{ errors.password }}</p>
