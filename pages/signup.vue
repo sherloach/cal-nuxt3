@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import 'cal-sans'
-import { CalendarHeart, Circle, Link2, Users } from 'lucide-vue-next'
+import { AlertCircle, CalendarHeart, Circle, Link2, Users } from 'lucide-vue-next'
+import { z } from 'zod'
 
 const FEATURES = [
   {
@@ -19,6 +20,32 @@ const FEATURES = [
     icon: Link2,
   },
 ]
+
+const validationSchema = toTypedSchema(
+  z.object({
+    username: z.string({ required_error: 'Please enter a username' }),
+    email: z.string({ required_error: 'Please enter an email address' })
+      .email({ message: 'Please enter a valid email address' }),
+    password: z.string({ required_error: 'Please enter a password' })
+      .min(4, { message: 'Password must be at least 4 characters' }),
+  }),
+)
+
+const { handleSubmit, errors } = useForm({
+  validationSchema,
+})
+
+const { value: username } = useField<string>('username')
+const { value: email } = useField<string>('email')
+const { value: password } = useField<string>('password')
+
+const onSubmit = handleSubmit(async (values) => {
+  const user = await $fetch('/api/auth/signup', {
+    method: 'POST',
+    body: values,
+  })
+  console.log(user)
+})
 </script>
 
 <template>
@@ -34,7 +61,7 @@ const FEATURES = [
           </p>
         </div>
         <div class="mt-10">
-          <form class="flex flex-col gap-4" action="">
+          <form class="flex flex-col gap-4" @submit.prevent="onSubmit">
             <div>
               <Label for="email" class="mb-2">Username</Label>
               <div class="group relative mb-1 flex items-center rounded-md focus-within:outline-none focus-within:ring-2 focus-within:ring-brand-default">
@@ -43,21 +70,29 @@ const FEATURES = [
                     <span class="flex whitespace-nowrap">http://localhost:3000/</span>
                   </div>
                 </div>
-                <Input placeholder="username" class="!my-0 mb-2 h-9 rounded-md rounded-l-none border-l-0 bg-default text-sm leading-4 text-emphasis !ring-0 transition placeholder:text-muted hover:border-emphasis focus:border-neutral-300 focus:ring-2 focus:ring-brand-default disabled:cursor-not-allowed disabled:bg-subtle disabled:hover:border-subtle" />
+                <Input v-model="username" placeholder="username" class="!my-0 mb-2 h-9 rounded-md rounded-l-none border-l-0 bg-default text-sm leading-4 text-emphasis !ring-0 transition placeholder:text-muted hover:border-emphasis focus:border-neutral-300 focus:ring-2 focus:ring-brand-default disabled:cursor-not-allowed disabled:bg-subtle disabled:hover:border-subtle" />
               </div>
-              <!-- <div class="text-gray mt-2 flex items-center gap-x-2 text-sm text-red-700">
+              <div v-if="errors.username" class="text-gray mt-2 flex items-center gap-x-2 text-sm text-red-700">
                 <AlertCircle width="13" height="13" />
-                <p>erorrs</p>
-              </div> -->
+                <p>{{ errors.username }}</p>
+              </div>
             </div>
             <div>
               <Label for="email" class="mb-2">Email</Label>
-              <Input placeholder="jdoe@example.com" class="mb-2 h-9 rounded-md bg-default text-sm leading-4 text-emphasis transition placeholder:text-muted hover:border-emphasis focus:border-neutral-300 focus:ring-2 focus:ring-brand-default disabled:cursor-not-allowed disabled:bg-subtle disabled:hover:border-subtle" />
+              <Input v-model="email" placeholder="jdoe@example.com" class="mb-2 h-9 rounded-md bg-default text-sm leading-4 text-emphasis transition placeholder:text-muted hover:border-emphasis focus:border-neutral-300 focus:ring-2 focus:ring-brand-default disabled:cursor-not-allowed disabled:bg-subtle disabled:hover:border-subtle" />
+              <div v-if="errors.email" class="text-gray mt-2 flex items-center gap-x-2 text-sm text-red-700">
+                <AlertCircle width="13" height="13" />
+                <p>{{ errors.email }}</p>
+              </div>
             </div>
             <div>
               <Label for="email" class="mb-2">Password</Label>
               <div>
-                <Input type="password" placeholder="•••••••••••••" class="mb-2 h-9 rounded-md bg-default text-sm leading-4 text-emphasis transition placeholder:text-muted hover:border-emphasis focus:border-neutral-300 focus:ring-2 focus:ring-brand-default disabled:cursor-not-allowed disabled:bg-subtle disabled:hover:border-subtle" />
+                <Input v-model="password" type="password" placeholder="•••••••••••••" class="mb-2 h-9 rounded-md bg-default text-sm leading-4 text-emphasis transition placeholder:text-muted hover:border-emphasis focus:border-neutral-300 focus:ring-2 focus:ring-brand-default disabled:cursor-not-allowed disabled:bg-subtle disabled:hover:border-subtle" />
+                <div v-if="errors.password" class="text-gray mt-2 flex items-center gap-x-2 text-sm text-red-700">
+                  <AlertCircle width="13" height="13" />
+                  <p>{{ errors.password }}</p>
+                </div>
               </div>
               <div class="text-gray mt-2 flex items-center text-sm text-default">
                 <ul class="ml-2">
@@ -73,7 +108,7 @@ const FEATURES = [
                 </ul>
               </div>
             </div>
-            <Button color="secondary" class="w-full justify-center rounded-md text-center">
+            <Button type="submit" color="secondary" class="w-full justify-center rounded-md">
               Create Account
             </Button>
           </form>

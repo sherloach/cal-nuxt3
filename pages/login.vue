@@ -36,7 +36,7 @@ const onSubmit = handleSubmit((values) => {
 </script>
 
 <template>
-  <div class="py-12 min-h-screen flex flex-col justify-center items-center bg-subtle">
+  <div class="flex min-h-screen flex-col items-center justify-center bg-subtle py-12">
     <h3 class="mx-auto mb-auto">
       <strong>
         <NuxtImg src="/logo.svg" alt="Cal" title="Cal" placeholder width="74" height="16" />
@@ -47,8 +47,8 @@ const onSubmit = handleSubmit((values) => {
         Welcome back
       </h2>
     </div>
-    <div class="mb-auto mt-8 sm:mx-auto w-full sm:max-w-md">
-      <div class="bg-default border-subtle mx-2 rounded-md border px-4 py-10 sm:px-10">
+    <div class="mb-auto mt-8 w-full sm:mx-auto sm:max-w-md">
+      <div class="mx-2 rounded-md border border-subtle bg-default px-4 py-10 sm:px-10">
         <form @submit.prevent="onSubmit">
           <div class="space-y-6">
             <div>
@@ -67,13 +67,13 @@ const onSubmit = handleSubmit((values) => {
                 <p>{{ errors.password }}</p>
               </div>
             </div>
-            <Button class="bg-brand-default text-brand disabled:bg-[#9ca3af] w-full" type="submit">
+            <Button type="submit" color="secondary" class="w-full justify-center bg-brand-default text-brand disabled:bg-[#9ca3af]">
               Sign in
             </Button>
           </div>
         </form>
       </div>
-      <div class="text-default mt-8 text-center text-sm">
+      <div class="mt-8 text-center text-sm text-default">
         <NuxtLink to="/signup" class="text-brand-500 font-medium">
           Don't have an account?
         </NuxtLink>
